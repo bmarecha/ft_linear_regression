@@ -67,10 +67,12 @@ void computeThetas(std::unique_ptr<csv_parser::Csv_data> const& data, double &th
 
 int main(int argc, char** argv) {
 	std::unique_ptr<csv_parser::Csv_data> data;
-	double	th1 = 6331.83;
+	double	th1 = 0;
 	double	th2 = 0;
-	double	pth1 = 1;
-	double	pth2 = 1;
+	double	pth1 = 0;
+	double	pth2 = 0;
+	double ppth1 = 0;
+	double ppth2 = 0;
 	size_t	e = 0;
 
 	if (argc == 2) {
@@ -81,17 +83,23 @@ int main(int argc, char** argv) {
 	if (!data) {
 		return (EXIT_FAILURE);
 	}
-	std::cout << "Start Computing :" << std::endl;
-	while (e <= 100) {// && std::fabs(th1 - pth1) > e * 0.000001 && std::fabs(th2 - pth2) > e * 0.000001) {
+	//std::cout << "Start Computing :" << std::endl;
+	while ( e < 5 ||
+			!((ppth1 >= th1 && th1 >= pth1) || (pth1 >= th1 && th1 >= ppth1)) || // value 1 still going in a direction
+			!((ppth2 >= th2 && th2 >= pth2) || (pth2 >= th2 && th2 >= ppth2)) // value 2 still going in a direction
+			) {
+		ppth1 = pth1;
+		ppth2 = pth2;
 		pth1 = th1;
 		pth2 = th2;
 		computeThetas(data, th1, th2);
 		e++;
-		std::cout << "Th1 from " << pth1 << " to " << th1 << std::endl;
-		std::cout << e << "Diff : " << std::fabs(th1 - pth1) << std::endl;
-		std::cout << "Th2 from " << pth2 << " to " << th2 << std::endl;
-		std::cout << e << "Diff : " << std::fabs(th2 - pth2) << std::endl;
-		std::cout << "e at " << (e * 0.000001) << std::endl;
+		//std::cout << "Th1 from " << pth1 << " to " << th1 << std::endl;
+		//std::cout << e << "Diff : " << std::fabs(th1 - pth1) << std::endl;
+		//std::cout << "Th2 from " << pth2 << " to " << th2 << std::endl;
+		//std::cout << e << "Diff : " << std::fabs(th2 - pth2) << std::endl;
+		//std::cout << "e at " << (e * 0.000001) << std::endl;
 	}
+
 
 }

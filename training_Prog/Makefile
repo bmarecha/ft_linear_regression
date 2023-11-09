@@ -38,6 +38,5 @@ clean:
 
 re: clean $(EXE)
 
-.PHONY: all clean rapport
-.SUFFIXES:
+.PHONY: all clean re
 .SUFFIXES: .cpp .hpp .o .d
