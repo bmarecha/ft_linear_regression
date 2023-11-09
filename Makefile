@@ -1,21 +1,45 @@
-TRAINPROG := trainingProg
-TRAINDIR := training_Prog
+CXX		?= g++
+RM		?= rm
+CXX		:= LANG=en LC_MESSAGES=C $(CXX)
+
+BUILDDIR	?= bin
+EXE			:= trainingProg
+
+SRCS		:= $(shell find ./ -name "*.cpp" -type f)
+OBJS		:= $(patsubst ./%.cpp, $(BUILDDIR)/%.o, $(SRCS))
+DEPS		:= $(patsubst ./%.cpp, $(BUILDDIR)/%.d, $(SRCS))
+
+WARNINGS	:=	-Wall -Wextra -pedantic
+
+FLAGS		:= $(WARNINGS) -std=c++17
+LDFLAGS		:= 
+
+ifdef DEBUG
+	FLAGS	:= $(FLAGS) -g -Og -DDEBUG
+else
+	FLAGS	:= $(FLAGS) -O3
+endif
+
+all: $(EXE)
+
+-include $(DEPS)
+
+$(EXE): $(OBJS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
+
+$(BUILDDIR)/%.o: ./%.cpp
+	mkdir -p $(dir $@)
+	$(CXX) $(FLAGS) -MMD -MP -c $< -o $@
 
 
-OGPROG := $(TRAINDIR)/$(TRAINPROG)
+clean:
+	$(RM) -rf $(BUILDDIR)
+	$(RM) $(EXE)
 
-all : $(TRAINPROG)
+re: clean $(EXE)
 
-$(OGPROG) :
-	make -C $(TRAINDIR)
-
-$(TRAINPROG) : $(OGPROG)
-	cp $(OGPROG) $(TRAINPROG)
-
-clean :
-	make -C $(TRAINDIR) clean
-	rm $(TRAINPROG)
-
+.PHONY: all clean re
+.SUFFIXES: .cpp .hpp .o .d
 
 re: clean $(TRAINPROG)
 

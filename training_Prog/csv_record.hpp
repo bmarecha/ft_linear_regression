@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <optional>
+#include <string>
 
 namespace csv_parser {
 

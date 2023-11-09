@@ -44,6 +44,14 @@ std::unique_ptr<csv_parser::Csv_data> read_csv_file(std::string path, bool heade
 	return nullptr;
 }
 
+void	printThetas(double th1, double th2) {
+	std::fstream f(".thetas.txt", std::fstream::out | std::fstream::trunc);
+	if (f.good())
+		f << th1 << " " << th2 << std::endl;
+	else
+		std::cout << "An error happened with output file '.thetas.txt'" << std::endl;
+}
+
 void computeThetas(std::unique_ptr<csv_parser::Csv_data> const& data, double &th1, double &th2) {
 	double sum1 = 0;
 	double sum2 = 0;
@@ -78,13 +86,14 @@ int main(int argc, char** argv) {
 	if (argc == 2) {
 		data = read_csv_file(argv[1], true);
 	} else {
-		data = read_csv_file("../data.csv", true);
+		data = read_csv_file("data.csv", true);
 	}
 	if (!data) {
+		std::cout << "An error happened with the file." << std::endl;
 		return (EXIT_FAILURE);
 	}
 	//std::cout << "Start Computing :" << std::endl;
-	while ( e < 5 ||
+	while ( e < 10 ||
 			!((ppth1 >= th1 && th1 >= pth1) || (pth1 >= th1 && th1 >= ppth1)) || // value 1 still going in a direction
 			!((ppth2 >= th2 && th2 >= pth2) || (pth2 >= th2 && th2 >= ppth2)) // value 2 still going in a direction
 			) {
@@ -100,6 +109,10 @@ int main(int argc, char** argv) {
 		//std::cout << e << "Diff : " << std::fabs(th2 - pth2) << std::endl;
 		//std::cout << "e at " << (e * 0.000001) << std::endl;
 	}
-
+	if (std::isfinite(th1) && std::isfinite(th2)) {
+		printThetas(th1, th2);
+	} else {
+		std::cout << "An error happened with the dataset, leading to abnormal values." << std::endl;
+	}
 
 }
