@@ -3,9 +3,10 @@ RM		?= rm
 CXX		:= LANG=en LC_MESSAGES=C $(CXX)
 
 BUILDDIR	?= bin
+SRCDIR		:= training_Prog/
 EXE			:= trainingProg
 
-SRCS		:= $(shell find ./ -name "*.cpp" -type f)
+SRCS		:= $(shell find ./$(SRCDIR) -name "*.cpp" -type f)
 OBJS		:= $(patsubst ./%.cpp, $(BUILDDIR)/%.o, $(SRCS))
 DEPS		:= $(patsubst ./%.cpp, $(BUILDDIR)/%.d, $(SRCS))
 

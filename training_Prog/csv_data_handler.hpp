@@ -38,6 +38,25 @@ namespace csv_parser {
 				at_first_line = false;
 				return true;
 			}
+			void error_handler(error e) {
+				switch (e)
+				{
+				case error::no_error :
+					break;
+				case error::empty_file :
+					break;
+				case error::unterminated_quoted_string :
+					break;
+				case error::malformed_quoted_string :
+					break;
+				case error::user_aborted :
+					break;
+				case error::other :
+					break;
+				default:
+					break;
+				}
+			}
 
 			Csv_data_handler(Csv_data& data, bool has_header_line, Csv_parser & parser) :
 				data_(data),
@@ -47,7 +66,7 @@ namespace csv_parser {
 			{
 				parser.field_handler = [this](std::string const& s) { return field_handler(s); };
 				parser.end_line_handler = [this]() { return end_line_handler(); };
-			}
+				parser.error_handler = [this](error e) { error_handler(e); };			}
 	};
 }
 

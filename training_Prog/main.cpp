@@ -29,17 +29,10 @@ std::unique_ptr<csv_parser::Csv_data> read_csv_file(std::string path, bool heade
 			parser.consume(buf[i]);
 		}
 	}
-	/*
-	std::cout << "Reading over " << f.good();
-	if (csv_parser::error::no_error == parser.get_error())
-		std::cout << "without error" << std::endl;
-	else
-		std::cout << "with error" << std::endl; //*/
 	if(f.eof())
 	{
 		parser.end_of_data();
-		//if(parser.complete())
-			return data;
+		return data;
 	}
 	return nullptr;
 }
@@ -113,6 +106,7 @@ int main(int argc, char** argv) {
 		printThetas(th1, th2);
 	} else {
 		std::cout << "An error happened with the dataset, leading to abnormal values." << std::endl;
+		return (EXIT_FAILURE);
 	}
 
 }
