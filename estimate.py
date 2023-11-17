@@ -1,21 +1,32 @@
 import os
 
-
-th1 = 0
-th2 = 0
-if os.path.isfile(".thetas.txt") :
-	file = open(".thetas.txt", "r")
+def readThetas (filename:str) -> tuple:
+	if not os.path.isfile(filename) :
+			print("Missing file :" + filename)
+			return false
+	file = open(filename, "r")
 	line = file.readline().split()
 	file.close()
-	if (len(line) > 1) :
-		th1 = float(line[0])
-		th2 = float(line[1])
+	if (len(line) <= 1) :
+		print("Needs two floats.")
+		exit(1)
+	return (float(line[0]), float(line[1]))
+	
 
-mileage = input("Please enter a mileage to predict the price : ")
-while (mileage != "quit") :
+def main () :
+	th1, th2 = readThetas(".thetas.txt")
 	try :
-		result = th1 + (int(mileage) * th2)
-		print (result)
-	except ValueError :
-		print("Oops!  That was no valid number.  Try again...")
-	mileage = input("Please enter a mileage to predict the price : ")
+		mileage = input("Please enter a mileage to predict the price : ")
+		while (mileage != "quit") :
+			try :
+				result = th1 + (int(mileage) * th2)
+				print (result if result > 0 else 0)
+			except ValueError :
+				print("Oops!  That was no valid number.  Try again...")
+			mileage = input("Please enter a mileage to predict the price : ")
+	except EOFError :
+		pass
+
+
+if __name__ == '__main__':
+	main()

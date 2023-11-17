@@ -1,7 +1,7 @@
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-
+from estimate import readThetas
 
 def readData (filename: str) -> tuple:
 	if not os.path.isfile(filename) :
@@ -24,28 +24,14 @@ def readData (filename: str) -> tuple:
 		line = file.readline()
 	return (labels, xpoints, ypoints)
 
-
-def readThetas (filename:str) -> tuple:
-	if not os.path.isfile(filename) :
-			print("Missing file :" + filename)
-			return false
-	file = open(filename, "r")
-	line = file.readline().split()
-	file.close()
-	if (len(line) <= 1) :
-		print("Needs two floats.")
-		exit(1)
-	return (float(line[0]), float(line[1]))
-	
-
 def main () :
 	labels, xpoints, ypoints = readData("data.csv")
 	th1, th2 = readThetas(".thetas.txt")
 
 	x = np.arange(500, 250000, 4)
 	y = th1 + (th2 * x)
-	print(x)
-	print(y)
+	#print(x)
+	#print(y)
 	plt.plot(x, y)
 	plt.ylim(0, None)
 
