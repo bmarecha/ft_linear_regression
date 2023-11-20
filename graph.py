@@ -30,10 +30,10 @@ def main () :
 
 	x = np.arange(500, 250000, 4)
 	y = th1 + (th2 * x)
-	#print(x)
-	#print(y)
+	print(xpoints)
+	print(ypoints)
 	plt.plot(x, y)
-	plt.ylim(0, None)
+	plt.ylim(0, max(ypoints) * 1.1)
 
 	plt.xlabel(labels[0])
 	plt.ylabel(labels[1])

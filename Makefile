@@ -36,6 +36,7 @@ $(BUILDDIR)/%.o: ./%.cpp
 clean:
 	$(RM) -rf $(BUILDDIR)
 	$(RM) $(EXE)
+	$(RM) .thetas.txt
 
 re: clean $(EXE)
 
